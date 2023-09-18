@@ -78,7 +78,17 @@ Here is a simple websocket client in python using [websocket-client api](https:/
 ```python
 import websocket
 import json
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
+# Create empty lists to store accelerometer data
+x_data = []
+y_data = []
+z_data = []
+
+# Initialize the 3D plot
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
 
 def on_message(ws, message):
     values = json.loads(message)['values']
@@ -86,6 +96,19 @@ def on_message(ws, message):
     y = values[1]
     z = values[2]
     print("x = ", x , "y = ", y , "z = ", z )
+    
+    # Append the data to the lists
+    x_data.append(x)
+    y_data.append(y)
+    z_data.append(z)
+    
+    # Update the 3D plot
+    ax.cla()  # Clear the previous frame
+    ax.set_xlabel('X-axis')
+    ax.set_ylabel('Y-axis')
+    ax.set_zlabel('Z-axis')
+    ax.scatter(x_data, y_data, z_data)
+    plt.pause(0.01)  # Add a slight delay to visualize updates
 
 def on_error(ws, error):
     print("error occurred ", error)
@@ -95,7 +118,6 @@ def on_close(ws, close_code, reason):
     
 def on_open(ws):
     print("connected")
-    
 
 def connect(url):
     ws = websocket.WebSocketApp(url,
@@ -105,9 +127,9 @@ def connect(url):
                               on_close=on_close)
 
     ws.run_forever()
- 
- 
-connect("ws://192.168.0.103:8080/sensor/connect?type=android.sensor.accelerometer") 
+
+if __name__ == "__main__":
+    connect("ws://192.168.0.157:8080/sensor/connect?type=android.sensor.gravity")
 
 ```
  *Your device's IP might be different when you tap start button, so make sure you are using correct IP address at client side*
@@ -165,11 +187,7 @@ Fields only for Android 8.0 and above.
 ## Real Time plotting
 See [Real Time Plot of Accelerometer (Python)](https://github.com/umer0586/SensorServer/wiki/Real-Time-Plot-Example-(-Python)) using this app
 
-![result](https://user-images.githubusercontent.com/35717992/208961337-0f69757e-e85b-4637-8c39-fa5554d85921.gif)
 
-
-
-https://github.com/umer0586/SensorServer/assets/35717992/2ebf865d-529e-4702-8254-347df98dc795
 
 
 
@@ -184,19 +202,4 @@ To connect over USB make sure `USB debugging` option is enable in your phone and
 * **Step 3** : use address `ws://localhost:8081:/sensor/connect?type=<sensor type here>` to connect 
 
 Make sure you have installed your android device driver and `adb devices` command detects your connected android phone.
-
-
-# Installation
-
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-    alt="Get it on F-Droid"
-    height="100">](https://f-droid.org/packages/github.umer0586.sensorserver)
-    
-OR
-
-Download latest *APK* from Github's [Release page](https://github.com/umer0586/SensorServer/releases) ![GitHub all releases](https://img.shields.io/github/downloads/umer0586/SensorServer/total?label=GitHub%20downloads)
-
-*(requires Android 5.0 or above)* . 
-##
-_You can appreciate this work by buying me a coffee_ :coffee: [https://www.buymeacoffee.com/umerfarooq](https://www.buymeacoffee.com/umerfarooq) 
 
