@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+
+    <item
+        android:id="@+id/nav_drawer_settings"
+        android:title="Settings"
+        android:icon="@drawable/ic_settings"
+        />
+
+    <item
+        android:id="@+id/nav_drawer_device_axis"
+        android:title="Device Axis"
+        android:icon="@drawable/ic_axis"
+        />
+
+    <item
+        android:id="@+id/nav_drawer_touch_sensors"
+        android:title="Touch Screen"
+        android:icon="@drawable/ic_touchscreen"
+        />
+
+</menu>
